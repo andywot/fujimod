@@ -126,7 +126,7 @@ const [lightness, setLightness] = createSignal(GLASS_DEFAULT.lightness);
 
 /** The look the page's switches chose, for screens drawn outside CSS. */
 export function designLook() {
-  return { look: look(), opacity: opacity(), contrast: contrast(), lightness: lightness(), rounded: rounded(), uppercase: upper() };
+  return { look: look(), opacity: opacity(), contrast: contrast(), lightness: lightness(), rounded: rounded(), uppercase: upper(), mark: markChosen() };
 }
 
 export function DesignFrame(props: { title: string; children: JSX.Element }) {

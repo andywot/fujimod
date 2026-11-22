@@ -66,6 +66,7 @@ export function FilmEditorCompare() {
         lightness: Math.round(50 + chosen.lightness * 50),
         rounded: chosen.rounded,
         uppercase: chosen.uppercase,
+        mark: chosen.mark,
       },
       window.location.origin,
     );
