@@ -14,6 +14,7 @@ import { ReleaseNotes } from '../cameras/ReleaseNotes';
 import { releaseData, releaseDate } from '../release-data';
 import { SiteFrame } from '../ui/SiteFrame';
 import { FeatureReels } from './FeatureReels';
+import { FilmEditorHero } from './FilmEditorHero';
 import { SdBootV2Download } from './sd-boot-v2/SdBootV2Download';
 import { recipeCatalog } from './sd-boot-v2/plan';
 import { createFirmwareLibrary } from '../cameras/firmware-library';
@@ -68,6 +69,7 @@ export default function Home() {
     <>
       <SiteFrame>
         <main>
+          <FilmEditorHero />
           <ReleasePersonalNote />
           <FeatureReels recipeCount={recipeCatalog(state.release?.sd_card_files).length} />
           <section class="home-release">
