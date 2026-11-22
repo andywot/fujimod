@@ -324,24 +324,24 @@ export function Dial(props: {
         <For each={[0, 1] as const}>
           {(side) => (
             <span
-              class="pointer-events-none absolute top-[6px] flex h-[28px] w-[18px] items-center justify-center"
+              class="pointer-events-none absolute top-[6px] flex h-[28px] w-[16px] items-center justify-center"
               style={{
-                [side ? 'right' : 'left']: '6px',
+                [side ? 'right' : 'left']: '10px',
                 color: !(props.focused || active()) ? 'transparent' : (side ? props.value >= props.max : props.value <= props.min) ? 'rgb(255 255 255 / 0.25)' : '#fff',
               }}
             >
-              <Chevron dir={side ? 'right' : 'left'} size={18} />
+              <Chevron dir={side ? 'right' : 'left'} size={16} />
             </span>
           )}
         </For>
-        <span class={`absolute top-[9px] left-[28px] flex items-center gap-[6px] ${TEXT} tracking-[0.06em]`} style={{ color: props.focused || active() ? '#fff' : 'rgb(255 255 255 / 0.7)' }}>
+        <span class={`absolute top-[9px] left-[34px] flex items-center gap-[6px] ${TEXT} tracking-[0.06em]`} style={{ color: props.focused || active() ? '#fff' : 'rgb(255 255 255 / 0.7)' }}>
           {props.name}
           {/* Changed from the film as opened: the same dot the rail uses. */}
           <Show when={props.changed}>
             <span class="size-[8px] rounded-full" style={{ background: ACCENT }} />
           </Show>
         </span>
-        <span class={`absolute top-[6px] right-[28px] origin-right font-semibold tabular-nums transition-transform duration-100 ${HEADING}`} style={{ color: '#fff', transform: active() ? 'scale(1.2)' : 'none' }}>
+        <span class={`absolute top-[6px] right-[34px] origin-right font-semibold tabular-nums transition-transform duration-100 ${HEADING}`} style={{ color: '#fff', transform: active() ? 'scale(1.2)' : 'none' }}>
           {label(props.value)}
         </span>
       </Show>
