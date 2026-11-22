@@ -40,35 +40,41 @@ export function FilmEditorHero() {
           <h2 class="film-editor-hero-title" id="film-editor-hero-title">
             Film Editor
           </h2>
-          <div class="film-editor-hero-screen">
-            <iframe
-              ref={(element) => {
-                frame = element;
-              }}
-              src="/demo/film-editor/index.html"
-              title="Film Editor"
-              width={720}
-              height={480}
-            />
-          </div>
-          <div class="film-editor-hero-keys" role="group" aria-label="Camera controls">
-            <CommandFace
-              size="panel"
-              part={{ kind: 'command', marking: {} }}
-              renderKey={(action, className, content) =>
-                action === 'press' ? <span class={className} /> : button(action, className, content)
-              }
-            />
-            <PadFace
-              size="panel"
-              part={{ kind: 'pad', marking: { face: ['MENU', 'OK'] } }}
-              renderKey={button}
-            />
-            <KeyFace
-              size="panel"
-              part={{ kind: 'key', marking: { face: ['DISP', 'BACK'] } }}
-              renderKey={(_action, className, content) => button('back', className, content)}
-            />
+          <div class="film-editor-hero-lockup">
+            <div class="film-editor-hero-screen">
+              <iframe
+                ref={(element) => {
+                  frame = element;
+                }}
+                src="/demo/film-editor/index.html"
+                title="Film Editor"
+                width={720}
+                height={480}
+              />
+            </div>
+            <div class="film-editor-hero-keys" role="group" aria-label="Camera controls">
+              <CommandFace
+                size="panel"
+                part={{ kind: 'command', marking: {} }}
+                renderKey={(action, className, content) =>
+                  action === 'press' ? (
+                    <span class={className} />
+                  ) : (
+                    button(action, className, content)
+                  )
+                }
+              />
+              <PadFace
+                size="panel"
+                part={{ kind: 'pad', marking: { face: ['MENU', 'OK'] } }}
+                renderKey={button}
+              />
+              <KeyFace
+                size="panel"
+                part={{ kind: 'key', marking: { face: ['DISP', 'BACK'] } }}
+                renderKey={(_action, className, content) => button('back', className, content)}
+              />
+            </div>
           </div>
         </section>
       )}
