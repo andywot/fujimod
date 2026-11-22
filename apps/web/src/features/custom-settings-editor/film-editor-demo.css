@@ -58,13 +58,7 @@
   font-weight: 750;
   letter-spacing: -0.01em;
 }
-.feature-page-subtitle {
-  width: min(962px, 100%);
-  margin: 40px auto 16px;
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
-  font-weight: 700;
-}
 .feature-page .design-frame {
   width: min(962px, 100%);
-  margin: 0 auto;
+  margin: 40px auto 0;
 }

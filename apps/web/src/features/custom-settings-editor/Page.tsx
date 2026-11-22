@@ -1,5 +1,5 @@
 import { CustomSettingsApp } from '../../docs/design/custom-settings-editor/app';
-import { GlassLook } from '../../design/looks';
+import { DesignFrame } from '../../design/looks';
 import { SiteFrame } from '../../ui/SiteFrame';
 import { FilmEditorDemo } from './FilmEditorDemo';
 import '../../home/site.css';
@@ -10,10 +10,9 @@ export default function CustomSettingsEditorFeature() {
       <main class="feature-page">
         <h1 class="feature-page-title">Custom Settings Editor</h1>
         <FilmEditorDemo />
-        <h2 class="feature-page-subtitle">Prototype</h2>
-        <GlassLook>
+        <DesignFrame title="Prototype">
           <CustomSettingsApp />
-        </GlassLook>
+        </DesignFrame>
       </main>
     </SiteFrame>
   );

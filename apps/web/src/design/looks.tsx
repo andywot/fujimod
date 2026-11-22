@@ -116,17 +116,6 @@ function Toggle(props: { label: string; on: boolean; set: (on: boolean) => void 
 
 /** A prototype page: its title, the look switches, then its screens. Every
  * .fm-screen inside takes the chosen look. */
-/** A prototype in the default Glass look, without the look switches. */
-export function GlassLook(props: { children: JSX.Element }) {
-  return (
-    <div class="design-frame fm-look-glass touch-manipulation font-sans text-[15px] text-[#ddd]">
-      <style>{STYLE_OPTIONS}</style>
-      <style>{`.fm-look-glass .fm-screen {${glassVars(GLASS_DEFAULT.opacity, GLASS_DEFAULT.contrast, GLASS_DEFAULT.lightness)} }`}</style>
-      {props.children}
-    </div>
-  );
-}
-
 export function DesignFrame(props: { title: string; children: JSX.Element }) {
   const [rounded, setRounded] = createSignal(true);
   const [upper, setUpper] = createSignal(false);
