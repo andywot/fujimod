@@ -318,14 +318,30 @@ export function Dial(props: {
       {...dial.handlers}
     >
       <Show when={props.name !== undefined}>
-        <span class={`absolute top-[9px] left-[12px] flex items-center gap-[6px] ${TEXT} tracking-[0.06em]`} style={{ color: props.focused || active() ? '#fff' : 'rgb(255 255 255 / 0.7)' }}>
+        {/* LEFT and RIGHT step it: a chevron at each end of the title line,
+            in space always kept for it, shown while focused and dim where
+            the scale stops. */}
+        <For each={[0, 1] as const}>
+          {(side) => (
+            <span
+              class="pointer-events-none absolute top-[6px] flex h-[28px] w-[18px] items-center justify-center"
+              style={{
+                [side ? 'right' : 'left']: '6px',
+                color: !(props.focused || active()) ? 'transparent' : (side ? props.value >= props.max : props.value <= props.min) ? 'rgb(255 255 255 / 0.25)' : '#fff',
+              }}
+            >
+              <Chevron dir={side ? 'right' : 'left'} size={18} />
+            </span>
+          )}
+        </For>
+        <span class={`absolute top-[9px] left-[28px] flex items-center gap-[6px] ${TEXT} tracking-[0.06em]`} style={{ color: props.focused || active() ? '#fff' : 'rgb(255 255 255 / 0.7)' }}>
           {props.name}
           {/* Changed from the film as opened: the same dot the rail uses. */}
           <Show when={props.changed}>
             <span class="size-[8px] rounded-full" style={{ background: ACCENT }} />
           </Show>
         </span>
-        <span class={`absolute top-[6px] right-[12px] origin-right font-semibold tabular-nums transition-transform duration-100 ${HEADING}`} style={{ color: '#fff', transform: active() ? 'scale(1.2)' : 'none' }}>
+        <span class={`absolute top-[6px] right-[28px] origin-right font-semibold tabular-nums transition-transform duration-100 ${HEADING}`} style={{ color: '#fff', transform: active() ? 'scale(1.2)' : 'none' }}>
           {label(props.value)}
         </span>
       </Show>
@@ -361,9 +377,9 @@ export function Dial(props: {
           </div>
         </div>
         <Show when={props.track}>{(track) => <div class="absolute inset-x-0 bottom-0 h-[4px]" style={{ background: track() }} />}</Show>
-        {/* Focused, LEFT and RIGHT step it: a chevron at each end, dim where
-            the scale stops. */}
-        <Show when={props.focused || active()}>
+        {/* A nameless slider has no title line: focused, its chevrons sit at
+            the ends of the scale, dim where it stops. */}
+        <Show when={(props.focused || active()) && props.name === undefined}>
           <For each={[0, 1] as const}>
             {(side) => (
               <span
