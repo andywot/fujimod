@@ -363,7 +363,7 @@ export function Dial(props: {
         <Show when={props.track}>{(track) => <div class="absolute inset-x-0 bottom-0 h-[4px]" style={{ background: track() }} />}</Show>
         {/* Focused, LEFT and RIGHT step it: a chevron at each end, dim where
             the scale stops. */}
-        <Show when={props.focused && props.name === undefined}>
+        <Show when={props.focused || active()}>
           <For each={[0, 1] as const}>
             {(side) => (
               <span
