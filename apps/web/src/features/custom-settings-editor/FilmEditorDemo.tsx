@@ -1,4 +1,5 @@
 import type { JSX } from '@solidjs/web';
+import './film-editor-demo.css';
 import { CommandFace, KeyFace, PadFace } from '@fujimod/emulator-ui/ui/control-faces';
 
 declare const __FUJIMOD_FILM_EDITOR_DEMO__: boolean;
@@ -15,8 +16,8 @@ const keys = new Map([
   ['increase', { key: ']', label: 'Rear dial right' }],
 ]);
 
-/** The Film Editor running live at the top of the home page, with the camera's rear keys. */
-export function FilmEditorHero() {
+/** The on-camera Film Editor running live, with the camera's rear keys. */
+export function FilmEditorDemo() {
   let frame: HTMLIFrameElement | undefined;
   const send = (action: string) => {
     const key = keys.get(action)?.key;
@@ -36,12 +37,9 @@ export function FilmEditorHero() {
   return (
     <>
       {__FUJIMOD_FILM_EDITOR_DEMO__ && (
-        <section class="film-editor-hero" aria-labelledby="film-editor-hero-title">
-          <h2 class="film-editor-hero-title" id="film-editor-hero-title">
-            Film Editor
-          </h2>
-          <div class="film-editor-hero-lockup">
-            <div class="film-editor-hero-screen">
+        <section class="film-editor-demo" aria-label="Film Editor">
+          <div class="film-editor-demo-lockup">
+            <div class="film-editor-demo-screen">
               <iframe
                 ref={(element) => {
                   frame = element;
@@ -52,7 +50,7 @@ export function FilmEditorHero() {
                 height={480}
               />
             </div>
-            <div class="film-editor-hero-keys" role="group" aria-label="Camera controls">
+            <div class="film-editor-demo-keys" role="group" aria-label="Camera controls">
               <CommandFace
                 size="panel"
                 part={{ kind: 'command', marking: {} }}
