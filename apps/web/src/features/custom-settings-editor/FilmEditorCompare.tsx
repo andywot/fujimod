@@ -138,8 +138,9 @@ export function FilmEditorCompare() {
     <div
       class="film-editor-compare-touch"
       onPointerDown={(event) => {
-        event.currentTarget.setPointerCapture(event.pointerId);
         touch(1, event);
+        /* After the prototype's handlers, which capture the same pointer. */
+        event.currentTarget.setPointerCapture(event.pointerId);
       }}
       onPointerMove={(event) => {
         if (start) touch(2, event);
