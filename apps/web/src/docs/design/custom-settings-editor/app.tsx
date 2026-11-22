@@ -52,17 +52,24 @@ const SETTINGS_KEYS: Partial<Record<CameraKey, string>> = {
   q: 'q',
 };
 
-/** The custom settings editor with the film editor over it, live, with the camera's keys. */
-export function CustomSettingsApp() {
+/** The custom settings editor with the film editor over it, live, with the
+ * camera's keys. `connect` receives the app's key input for another page's
+ * keys; `film` starts with the film editor open; `keys: false` leaves the
+ * on-screen keys to that page. */
+export function CustomSettingsApp(props: { connect?: (send: (key: CameraKey) => void) => void; film?: boolean; keys?: boolean }) {
+  /* The film editor as Fn opens it over a custom setting's film. */
+  const opened = (recipe: EditorState) => {
+    const name = FILMS[recipe.recipe.film].name;
+    const base = baseFilm(FILM_BASE[name] ?? 0);
+    return initial({ film: base, opened: base, from: name, name: 'NEW FILM', area: 'rail', railOn: 'film' });
+  };
   const [settings, setSettings] = createSignal<EditorState>(INITIAL);
-  const [film, setFilm] = createSignal<FilmState>(initial({}));
-  const [open, setOpen] = createSignal(false);
+  const [film, setFilm] = createSignal<FilmState>(props.film ? opened(INITIAL) : initial({}));
+  const [open, setOpen] = createSignal(props.film === true);
   const histogram = useHistogram();
 
   const openFilm = () => {
-    const name = FILMS[settings().recipe.film].name;
-    const base = baseFilm(FILM_BASE[name] ?? 0);
-    setFilm(initial({ film: base, opened: base, from: name, name: 'NEW FILM', area: 'rail', railOn: 'film' }));
+    setFilm(opened(settings()));
     setOpen(true);
   };
 
@@ -77,6 +84,7 @@ export function CustomSettingsApp() {
     const mapped = SETTINGS_KEYS[key];
     if (mapped) setSettings(onKey(settings(), mapped));
   };
+  props.connect?.(send);
 
   return (
     <>
@@ -115,7 +123,7 @@ export function CustomSettingsApp() {
           </div>
         </CameraScreen>
       </Fit>
-      <CameraKeys send={send} />
+      {props.keys !== false && <CameraKeys send={send} />}
     </>
   );
 }

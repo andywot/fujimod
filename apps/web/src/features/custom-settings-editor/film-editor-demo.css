@@ -59,6 +59,31 @@
   letter-spacing: -0.01em;
 }
 .feature-page .design-frame {
-  width: min(962px, 100%);
+  width: min(1480px, 100%);
   margin: 40px auto 0;
+}
+.film-editor-compare-screens {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 12px;
+}
+.film-editor-compare figure {
+  margin: 0;
+}
+.film-editor-compare figcaption {
+  margin-top: 6px;
+  color: #999;
+  font-size: 15px;
+}
+.film-editor-compare-screen {
+  position: relative;
+}
+.film-editor-compare-screen iframe {
+  display: block;
+  border: 0;
+}
+.film-editor-compare-touch {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
 }
