@@ -116,14 +116,20 @@ function Toggle(props: { label: string; on: boolean; set: (on: boolean) => void 
 
 /** A prototype page: its title, the look switches, then its screens. Every
  * .fm-screen inside takes the chosen look. */
+const [rounded, setRounded] = createSignal(true);
+const [upper, setUpper] = createSignal(false);
+const [markChosen, setMarkChosen] = createSignal(false);
+const [look, setLook] = createSignal<Look>('glass');
+const [opacity, setOpacity] = createSignal(GLASS_DEFAULT.opacity);
+const [contrast, setContrast] = createSignal(GLASS_DEFAULT.contrast);
+const [lightness, setLightness] = createSignal(GLASS_DEFAULT.lightness);
+
+/** The look the page's switches chose, for screens drawn outside CSS. */
+export function designLook() {
+  return { look: look(), opacity: opacity(), contrast: contrast(), lightness: lightness(), rounded: rounded(), uppercase: upper() };
+}
+
 export function DesignFrame(props: { title: string; children: JSX.Element }) {
-  const [rounded, setRounded] = createSignal(true);
-  const [upper, setUpper] = createSignal(false);
-  const [markChosen, setMarkChosen] = createSignal(false);
-  const [look, setLook] = createSignal<Look>('glass');
-  const [opacity, setOpacity] = createSignal(GLASS_DEFAULT.opacity);
-  const [contrast, setContrast] = createSignal(GLASS_DEFAULT.contrast);
-  const [lightness, setLightness] = createSignal(GLASS_DEFAULT.lightness);
   onSettled(loadCalibration);
   return (
     <div

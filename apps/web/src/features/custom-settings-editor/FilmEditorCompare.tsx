@@ -1,5 +1,6 @@
-import { onSettled } from 'solid-js';
+import { createEffect, onSettled } from 'solid-js';
 import { CustomSettingsApp } from '../../docs/design/custom-settings-editor/app';
+import { designLook } from '../../design/looks';
 import { CameraKeys, Fit, type CameraKey } from '../../design/screen';
 import './film-editor-demo.css';
 
@@ -50,6 +51,26 @@ export function FilmEditorCompare() {
     sendPrototype?.(key);
     frame?.contentWindow?.postMessage({ type: 'focal-preview-key', key: CAMERA_KEYS[key] }, window.location.origin);
   };
+
+  /* The camera's material indices, and its glass dials: LIGHTNESS 50 is the
+     prototype's 0, the darkest glass. */
+  const LOOK_INDEX = { glass: 0, contrast: 1, fujimod: 2 } as const;
+  const sendLook = () => {
+    const chosen = designLook();
+    frame?.contentWindow?.postMessage(
+      {
+        type: 'focal-preview-material',
+        look: LOOK_INDEX[chosen.look],
+        opacity: Math.round(chosen.opacity * 100),
+        contrast: Math.round(chosen.contrast * 100),
+        lightness: Math.round(50 + chosen.lightness * 50),
+        rounded: chosen.rounded,
+        uppercase: chosen.uppercase,
+      },
+      window.location.origin,
+    );
+  };
+  createEffect(designLook, sendLook);
 
   onSettled(() => {
     const keydown = (event: KeyboardEvent) => {
@@ -156,7 +177,7 @@ export function FilmEditorCompare() {
           <figure>
             <div class="film-editor-compare-screen">
               <Fit>
-                <iframe ref={(element) => (frame = element)} src="/demo/film-editor/index.html" title="Film Editor" width={720} height={480} />
+                <iframe ref={(element) => (frame = element)} src="/demo/film-editor/index.html" title="Film Editor" width={720} height={480} onLoad={sendLook} />
               </Fit>
               {surface()}
             </div>
