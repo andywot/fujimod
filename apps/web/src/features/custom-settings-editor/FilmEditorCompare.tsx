@@ -170,7 +170,7 @@ export function FilmEditorCompare() {
       <div class="film-editor-compare-screens">
         <figure>
           <div class="film-editor-compare-screen" ref={(element) => (prototype = element)}>
-            <CustomSettingsApp film keys={false} connect={(input) => (sendPrototype = input)} />
+            <CustomSettingsApp keys={false} connect={(input) => (sendPrototype = input)} />
             {surface()}
           </div>
           <figcaption>Prototype</figcaption>
