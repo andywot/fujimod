@@ -44,14 +44,18 @@ function useDialGesture(o: {
   let dragged = false;
   let frame = 0;
   const stop = () => cancelAnimationFrame(frame);
+  /* The step the value holds moves only once the dial is a fifth of a step
+     past the boundary, so a finger resting on it does not flicker. */
+  let held = 0;
   const commit = (p: number) => {
-    const i = Math.max(0, Math.min(o.count() - 1, Math.round(p)));
+    if (Math.abs(p - held) > 0.7) held = Math.round(p);
+    const i = Math.max(0, Math.min(o.count() - 1, held));
     if (i !== Math.round(o.index())) o.commit(i);
   };
   const band = (p: number) => (p < 0 ? p / 3 : p > o.count() - 1 ? o.count() - 1 + (p - o.count() + 1) / 3 : p);
   const settle = () => {
     const from = pos() ?? o.index();
-    const to = Math.max(0, Math.min(o.count() - 1, Math.round(from)));
+    const to = Math.max(0, Math.min(o.count() - 1, held));
     const t0 = performance.now();
     const tick = (now: number) => {
       const t = Math.min(1, (now - t0) / 200);
@@ -85,6 +89,7 @@ function useDialGesture(o: {
       dragged = false;
       o.onFocus?.();
       gesture = { x: e.clientX, y: e.clientY, start: pos() ?? o.index(), axis: null, samples: [[performance.now(), e.clientX]] };
+      held = Math.round(gesture.start);
     },
     onPointerMove: (e: PointerEvent & { currentTarget: HTMLElement }) => {
       if (!gesture) return;
@@ -109,7 +114,12 @@ function useDialGesture(o: {
       gesture = undefined;
       if (!g) return;
       if (g.axis === 'x') {
-        const [[t0, x0], [t1, x1]] = [g.samples[0], g.samples[g.samples.length - 1]];
+        /* Only the last 60 ms of movement count: a finger that rested before
+           lifting stops the dial where it is. */
+        const now = performance.now();
+        const recent = g.samples.filter(([t]) => now - t <= 60);
+        const [t0, x0] = recent[0] ?? [now, e.clientX];
+        const [t1, x1] = recent[recent.length - 1] ?? [now, e.clientX];
         const velocity = t1 > t0 ? (-(x1 - x0) * scaleOf(e.currentTarget)) / (t1 - t0) : 0;
         if (Math.abs(velocity) > 0.3) coast(velocity);
         else settle();
