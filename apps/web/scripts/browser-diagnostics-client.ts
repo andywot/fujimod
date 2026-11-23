@@ -93,6 +93,19 @@ declare global {
           transferred: entry.transferSize,
           status: entry.responseStatus,
         })),
+      // Every file the page loaded: how many, and when the last one arrived.
+      loaded: (() => {
+        const entries = performance
+          .getEntriesByType('resource')
+          .filter(
+            (entry): entry is PerformanceResourceTiming =>
+              entry instanceof PerformanceResourceTiming,
+          );
+        return {
+          count: entries.length,
+          lastEnd: Math.round(Math.max(0, ...entries.map((entry) => entry.responseEnd))),
+        };
+      })(),
       // Main-thread stalls (frames held over 100 ms) and the wait before a
       // tap or key was handled, as this device measured them.
       stalls: stalls.slice(0, 80),
