@@ -3709,10 +3709,13 @@ type MenuTablesVariant2 = dict[str, Never]
 class MessageQueue(TypedDict, total=False):
     enqueue: Required[int]
     id: Required[int]
-    parameters: Required[dict[str, int]]
+    parameters: Required[MessageQueueVariant0]
     payload_bytes: Required[int]
     sender: Required[int]
     uninitialized_payload_offsets: Required[list[int]]
+
+
+type MessageQueueVariant0 = dict[str, Never]
 
 
 class MicrocontrollerAssembly(TypedDict, total=False):
@@ -4128,13 +4131,6 @@ class PartModelVariant9(TypedDict, total=False):
 class PayloadDeadline(TypedDict, total=False):
     payload_offset: Required[int]
     unit: Required[DeadlineUnit]
-
-
-class PeripheralMapping(TypedDict, total=False):
-    address: Required[int]
-    block_id: Required[str]
-    core: Required[str]
-    offset: NotRequired[int | None]
 
 
 type PeripheralPart = (
@@ -5737,7 +5733,6 @@ Soc = TypedDict(
         "interrupts": Required["list[InterruptRoute]"],
         "mappings": Required["list[AddressMapping]"],
         "memory_regions": Required["list[MemoryRegion]"],
-        "peripherals": Required["list[PeripheralMapping]"],
         "processors": Required["list[ProcessorCore]"],
         "reset": Required["SocReset"],
         "schema": Required["int"],
@@ -5753,6 +5748,7 @@ class SocBlock(TypedDict, total=False):
     kind: Required[SocBlockKind]
     processor_core_id: NotRequired[str | None]
     size: Required[int]
+    views: NotRequired[list[SocBlockView]]
 
 
 type SocBlockKind = Literal[
@@ -5773,6 +5769,12 @@ type SocBlockKind = Literal[
     "memory-controller",
     "address-window",
 ]
+
+
+class SocBlockView(TypedDict, total=False):
+    address: Required[int]
+    core: Required[str]
+    offset: NotRequired[int | None]
 
 
 class SocHardware(TypedDict, total=False):
