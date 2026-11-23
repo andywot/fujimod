@@ -147,5 +147,10 @@ export function localReviewFiles(directory: string | undefined): Plugin {
       if (directory)
         server.middlewares.use(reviewFiles(directory, resolve(server.config.root, '../..')));
     },
+    // The local preview build serves the same files; a published build has no directory.
+    configurePreviewServer(server) {
+      if (directory)
+        server.middlewares.use(reviewFiles(directory, resolve(server.config.root, '../..')));
+    },
   };
 }
