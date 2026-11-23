@@ -418,9 +418,9 @@ export function Dial(props: {
 
 /** Two to four options side by side, the chosen one a white plate: ON/OFF and
  * other short choices, where a strip would hide what there is to choose. */
-export function Switch(props: { items: readonly string[]; value: number; focused: boolean; pick: (i: number) => void; onFocus?: () => void }) {
+export function Switch(props: { items: readonly string[]; value: number; focused: boolean; width?: number; pick: (i: number) => void; onFocus?: () => void }) {
   return (
-    <div class="flex h-[47px] items-center gap-[4px] px-[5px]" style={TRACK(props.focused)} onPointerDown={() => props.onFocus?.()}>
+    <div class="flex h-[47px] shrink-0 items-center gap-[4px] px-[5px]" style={{ ...TRACK(props.focused), width: props.width ? `${props.width}px` : undefined }} onPointerDown={() => props.onFocus?.()}>
       <For each={[...props.items]}>
         {(item, i) => (
           <button
