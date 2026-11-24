@@ -882,22 +882,6 @@ class CodeCheck(TypedDict, total=False):
     size: Required[int]
 
 
-class CompanionHardware(TypedDict, total=False):
-    clock_id: Required[str]
-    mailbox: Required[CompanionMailbox]
-    mailbox_block_id: Required[str]
-    processor_id: Required[str]
-    vector_base: Required[int]
-
-
-class CompanionMailbox(TypedDict, total=False):
-    control: Required[int]
-    fault: Required[int]
-    reply: Required[int]
-    request: Required[int]
-    status: Required[int]
-
-
 type Configuration = ConfigurationVariant0 | ConfigurationVariant1
 
 
@@ -3452,7 +3436,7 @@ class LocatedScannerRecord(TypedDict, total=False):
 
 
 class MProfileState(TypedDict, total=False):
-    cpuid: Required[int]
+    cpuid: NotRequired[int | None]
     vector_base: Required[int]
 
 
@@ -4215,6 +4199,7 @@ type ProcessorArchitecture = Literal["arm32", "aarch64"]
 
 class ProcessorCore(TypedDict, total=False):
     aprofile: NotRequired[AProfileState | None]
+    clock_id: NotRequired[str | None]
     id: Required[str]
     model: Required[ProcessorModel]
     mprofile: NotRequired[MProfileState | None]
@@ -5668,7 +5653,6 @@ class SocBlockView(TypedDict, total=False):
 
 
 class SocHardware(TypedDict, total=False):
-    companion: NotRequired[CompanionHardware | None]
     power_on_ram_fill: NotRequired[int | None]
     profiles: NotRequired[dict[str, SocProfile]]
 
